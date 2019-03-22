@@ -3,6 +3,7 @@ package com.daqian.ali.ons;
 import com.aliyun.openservices.ons.api.Message;
 import com.aliyun.openservices.ons.api.SendResult;
 import com.aliyun.openservices.ons.api.bean.ProducerBean;
+import com.aliyun.openservices.shade.com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,6 +28,10 @@ public class OnsMqClient {
      * @return
      */
     public boolean sendMsg(Message message) {
+        if (!producerBean.isStarted()) {
+            log.warn("Send mq message failed.The producer not started!");
+            throw new RuntimeException("Send mq message failed.The producer not started!");
+        }
 
         SendResult sendResult;
         try {
@@ -41,5 +46,38 @@ public class OnsMqClient {
             return false;
         }
         return true;
+    }
+
+    /**
+     * 发送消息
+     * 序列化方式：JSON.toJSONBytes(body)
+     *
+     * @param topic
+     * @param tags
+     * @param body
+     * @return
+     */
+    public boolean sendMsg(String topic, String tags, Object body) {
+        Message message = new Message();
+        message.setTopic(topic);
+        message.setTag(tags);
+        message.setBody(JSON.toJSONBytes(body));
+        return sendMsg(message);
+    }
+
+    /**
+     * 发送消息
+     *
+     * @param topic
+     * @param tags
+     * @param body
+     * @return
+     */
+    public boolean sendMsg(String topic, String tags, byte[] body) {
+        Message message = new Message();
+        message.setTopic(topic);
+        message.setTag(tags);
+        message.setBody(body);
+        return sendMsg(message);
     }
 }

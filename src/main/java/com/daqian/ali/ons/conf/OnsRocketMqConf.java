@@ -6,6 +6,7 @@ import com.aliyun.openservices.ons.api.bean.ProducerBean;
 import com.daqian.ali.ons.MessageListenerHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +23,19 @@ import java.util.Properties;
 @Slf4j
 @EnableConfigurationProperties(OnsMqProperties.class)
 public class OnsRocketMqConf {
+
+    /**
+     * 生产者是否开启
+     */
+    @Value("${ali.ons.rocketmq.producer.enable}")
+    private Boolean producerEnable;
+
+    /**
+     * 消费者是否开启
+     */
+    @Value("${ali.ons.rocketmq.consumer.enable}")
+    private Boolean consumerEnable;
+
 
     @Autowired
     private OnsMqProperties onsMqProperties;
@@ -51,13 +65,17 @@ public class OnsRocketMqConf {
      * @author daqian
      * @date 2019/3/21 14:26
      */
-    @Bean(initMethod = "start", destroyMethod = "shutdown")
+//    @Bean(initMethod = "start", destroyMethod = "shutdown")
+    @Bean(destroyMethod = "shutdown")
     public ProducerBean producerBean() {
         Properties properties = this.commonProperties();
         properties.put(PropertyKeyConst.ProducerId, onsMqProperties.getConfig().getProperty(PropertyKeyConst.ProducerId));
 
         ProducerBean producerBean = new ProducerBean();
         producerBean.setProperties(properties);
+        if (Boolean.TRUE.equals(producerEnable)) {
+            producerBean.start();
+        }
         return producerBean;
     }
 
@@ -68,7 +86,8 @@ public class OnsRocketMqConf {
      * @author daqian
      * @date 2019/3/21 14:26
      */
-    @Bean(initMethod = "start", destroyMethod = "shutdown")
+//    @Bean(initMethod = "start", destroyMethod = "shutdown")
+    @Bean(destroyMethod = "shutdown")
     public ConsumerBean consumerBean() {
         Properties properties = this.commonProperties();
         properties.put(PropertyKeyConst.ConsumerId, onsMqProperties.getConfig().getProperty(PropertyKeyConst.ConsumerId));
@@ -79,6 +98,9 @@ public class OnsRocketMqConf {
         consumerBean.setProperties(properties);
         //将所有实现的消费者监听加入订阅关系
         consumerBean.setSubscriptionTable(MessageListenerHandler.getSubscriptionTable());
+        if (Boolean.TRUE.equals(consumerEnable)) {
+            consumerBean.start();
+        }
         return consumerBean;
     }
 }

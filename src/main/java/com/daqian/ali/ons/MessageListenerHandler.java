@@ -39,10 +39,9 @@ public class MessageListenerHandler implements ApplicationContextAware {
      * @date 2019/3/21 15:46
      */
     public static Map<Subscription, MessageListener> getSubscriptionTable() throws BeansException {
-        Map<Subscription, MessageListener> subscriptionTable = null;
         try {
             String[] messageConsumerBeans = getApplicationContext().getBeanNamesForAnnotation(MessageConsumer.class);
-            subscriptionTable = new HashMap<>(messageConsumerBeans.length);
+            Map<Subscription, MessageListener> subscriptionTable = new HashMap<>(messageConsumerBeans.length);
             for (String beanName : messageConsumerBeans) {
                 Class clazz = applicationContext.getType(beanName);
                 MessageConsumer messageConsumer = AnnotationUtils.findAnnotation(clazz, MessageConsumer.class);
@@ -56,10 +55,11 @@ public class MessageListenerHandler implements ApplicationContextAware {
                 subscriptionTable.put(subscription, (MessageListener) applicationContext.getBean(beanName));
 
             }
+            return subscriptionTable;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return subscriptionTable;
+        return null;
     }
 
 

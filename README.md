@@ -7,6 +7,10 @@
 ali:
     ons:
       rocketmq:
+        consumer:
+          enable: false
+        producer:
+          enable: false
         config:
           AccessKey: xxx (必填)        // ONS用户的access Key
           SecretKey: xxx (必填)        // ONS用户的secret Key
