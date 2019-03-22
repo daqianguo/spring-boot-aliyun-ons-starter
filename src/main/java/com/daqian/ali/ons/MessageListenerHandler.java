@@ -3,6 +3,7 @@ package com.daqian.ali.ons;
 import com.aliyun.openservices.ons.api.MessageListener;
 import com.aliyun.openservices.ons.api.bean.Subscription;
 import com.daqian.ali.ons.annotation.MessageConsumer;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -17,16 +18,25 @@ import java.util.Map;
  * @Date: 2019/3/20 20:13
  */
 @Component
+@Slf4j
 public class MessageListenerHandler implements ApplicationContextAware {
 
+    /**
+     * 上下文对象实例
+     */
     private static ApplicationContext applicationContext;
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) {
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         MessageListenerHandler.applicationContext = applicationContext;
     }
 
-    private static ApplicationContext getApplicationContext() {
+    /**
+     * 获取applicationContext
+     *
+     * @return
+     */
+    public static ApplicationContext getApplicationContext() {
         return applicationContext;
     }
 
@@ -42,17 +52,19 @@ public class MessageListenerHandler implements ApplicationContextAware {
         try {
             String[] messageConsumerBeans = getApplicationContext().getBeanNamesForAnnotation(MessageConsumer.class);
             Map<Subscription, MessageListener> subscriptionTable = new HashMap<>(messageConsumerBeans.length);
+            Subscription subscription;
             for (String beanName : messageConsumerBeans) {
                 Class clazz = applicationContext.getType(beanName);
                 MessageConsumer messageConsumer = AnnotationUtils.findAnnotation(clazz, MessageConsumer.class);
 
                 //绑定监听的topic
-                Subscription subscription = new Subscription();
+                subscription = new Subscription();
                 subscription.setTopic(messageConsumer.topic());
                 //绑定要监听的tag，多个tag用 || 隔开
                 subscription.setExpression(messageConsumer.tag());
 
                 subscriptionTable.put(subscription, (MessageListener) applicationContext.getBean(beanName));
+                log.info("Topic[{}] and tag[{}] subscribed!", messageConsumer.topic(), messageConsumer.tag());
 
             }
             return subscriptionTable;

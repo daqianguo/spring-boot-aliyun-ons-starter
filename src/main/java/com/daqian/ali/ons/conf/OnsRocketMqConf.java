@@ -1,9 +1,11 @@
 package com.daqian.ali.ons.conf;
 
+import com.aliyun.openservices.ons.api.Consumer;
 import com.aliyun.openservices.ons.api.PropertyKeyConst;
 import com.aliyun.openservices.ons.api.bean.ConsumerBean;
 import com.aliyun.openservices.ons.api.bean.ProducerBean;
 import com.daqian.ali.ons.MessageListenerHandler;
+import com.daqian.ali.ons.OnsMqClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +25,16 @@ import java.util.Properties;
 @Slf4j
 @EnableConfigurationProperties(OnsMqProperties.class)
 public class OnsRocketMqConf {
+
+    @Bean
+    public MessageListenerHandler messageListenerHandler() {
+        return new MessageListenerHandler();
+    }
+
+    @Bean
+    public OnsMqClient onsMqClient() {
+        return new OnsMqClient();
+    }
 
     /**
      * 生产者是否开启
@@ -65,7 +77,6 @@ public class OnsRocketMqConf {
      * @author daqian
      * @date 2019/3/21 14:26
      */
-//    @Bean(initMethod = "start", destroyMethod = "shutdown")
     @Bean(destroyMethod = "shutdown")
     public ProducerBean producerBean() {
         Properties properties = this.commonProperties();
@@ -86,7 +97,6 @@ public class OnsRocketMqConf {
      * @author daqian
      * @date 2019/3/21 14:26
      */
-//    @Bean(initMethod = "start", destroyMethod = "shutdown")
     @Bean(destroyMethod = "shutdown")
     public ConsumerBean consumerBean() {
         Properties properties = this.commonProperties();
