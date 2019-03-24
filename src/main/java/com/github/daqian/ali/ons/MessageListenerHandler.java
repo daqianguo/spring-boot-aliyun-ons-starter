@@ -1,8 +1,8 @@
-package com.daqian.ali.ons;
+package com.github.daqian.ali.ons;
 
 import com.aliyun.openservices.ons.api.MessageListener;
 import com.aliyun.openservices.ons.api.bean.Subscription;
-import com.daqian.ali.ons.annotation.MessageConsumer;
+import com.github.daqian.ali.ons.annotation.MessageConsumer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

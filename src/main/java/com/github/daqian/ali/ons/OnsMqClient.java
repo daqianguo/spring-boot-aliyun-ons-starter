@@ -1,4 +1,4 @@
-package com.daqian.ali.ons;
+package com.github.daqian.ali.ons;
 
 import com.aliyun.openservices.ons.api.Message;
 import com.aliyun.openservices.ons.api.SendResult;

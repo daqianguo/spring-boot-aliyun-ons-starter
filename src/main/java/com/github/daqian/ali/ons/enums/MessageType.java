@@ -1,4 +1,4 @@
-package com.daqian.ali.ons.enums;
+package com.github.daqian.ali.ons.enums;
 
 /**
  * 消息类型

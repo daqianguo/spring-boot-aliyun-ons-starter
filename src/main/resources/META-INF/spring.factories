@@ -1,1 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.daqian.ali.ons.conf.OnsRocketMqConf
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.github.daqian.ali.ons.conf.OnsRocketMqConf

@@ -1,11 +1,10 @@
-package com.daqian.ali.ons.conf;
+package com.github.daqian.ali.ons.conf;
 
-import com.aliyun.openservices.ons.api.Consumer;
 import com.aliyun.openservices.ons.api.PropertyKeyConst;
 import com.aliyun.openservices.ons.api.bean.ConsumerBean;
 import com.aliyun.openservices.ons.api.bean.ProducerBean;
-import com.daqian.ali.ons.MessageListenerHandler;
-import com.daqian.ali.ons.OnsMqClient;
+import com.github.daqian.ali.ons.MessageListenerHandler;
+import com.github.daqian.ali.ons.OnsMqClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

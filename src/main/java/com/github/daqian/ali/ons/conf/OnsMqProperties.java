@@ -1,4 +1,4 @@
-package com.daqian.ali.ons.conf;
+package com.github.daqian.ali.ons.conf;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

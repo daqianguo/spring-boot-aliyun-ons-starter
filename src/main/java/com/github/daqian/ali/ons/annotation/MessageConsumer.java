@@ -1,4 +1,4 @@
-package com.daqian.ali.ons.annotation;
+package com.github.daqian.ali.ons.annotation;
 
 
 import java.lang.annotation.*;
