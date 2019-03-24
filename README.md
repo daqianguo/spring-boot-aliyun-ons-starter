@@ -25,20 +25,18 @@ ali:
 ## 2.生产者示例
 ```java
   //例如，订单创建场景
-  @Component
-  @MessageConsumer(topic = OnsTopic.ORDER, tag = OnsTag.CREATE)
   @Autowired
-      private OnsMqClient onsMqClient;
-  
-      @GetMapping("test")
-      public JSONResult<Object> test() {
-          Message message = new Message();
-          message.setTopic("ORDER");
-          message.setTag("CREATE");
-          message.setBody("有新订单创建".getBytes());
-          onsMqClient.sendMsg(message);
-          return JSONResult.ok();
-      }
+  private OnsMqClient onsMqClient;
+
+  @GetMapping("test")
+  public JSONResult<Object> test() {
+      Message message = new Message();
+      message.setTopic("ORDER");
+      message.setTag("CREATE");
+      message.setBody("有新订单创建".getBytes());
+      onsMqClient.sendMsg(message);
+      return JSONResult.ok();
+  }
 ```
 
 ## 3.消费者示例
