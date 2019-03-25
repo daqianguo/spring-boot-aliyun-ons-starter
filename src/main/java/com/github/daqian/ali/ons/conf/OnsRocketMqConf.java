@@ -59,6 +59,7 @@ public class OnsRocketMqConf {
         properties.put(PropertyKeyConst.SecretKey, onsMqProperties.getConfig().getProperty(PropertyKeyConst.SecretKey));
         // 设置 TCP 接入域名（此处以公共云生产环境为例）
         properties.put(PropertyKeyConst.ONSAddr, onsMqProperties.getConfig().getProperty(PropertyKeyConst.ONSAddr));
+        properties.put(PropertyKeyConst.GROUP_ID, onsMqProperties.getConfig().getProperty(PropertyKeyConst.GROUP_ID));
 
         //设置发送超时时间，单位毫秒
         if (onsMqProperties.getConfig().getProperty(PropertyKeyConst.SendMsgTimeoutMillis) != null) {
@@ -79,7 +80,6 @@ public class OnsRocketMqConf {
     @Bean(destroyMethod = "shutdown")
     public ProducerBean producerBean() {
         Properties properties = this.commonProperties();
-        properties.put(PropertyKeyConst.ProducerId, onsMqProperties.getConfig().getProperty(PropertyKeyConst.ProducerId));
 
         ProducerBean producerBean = new ProducerBean();
         producerBean.setProperties(properties);
@@ -99,7 +99,6 @@ public class OnsRocketMqConf {
     @Bean(destroyMethod = "shutdown")
     public ConsumerBean consumerBean() {
         Properties properties = this.commonProperties();
-        properties.put(PropertyKeyConst.ConsumerId, onsMqProperties.getConfig().getProperty(PropertyKeyConst.ConsumerId));
         // 订阅方式 (默认集群)
         properties.put(PropertyKeyConst.MessageModel, onsMqProperties.getConfig().getProperty(PropertyKeyConst.MessageModel));
 
