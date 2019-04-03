@@ -6,8 +6,8 @@ import java.lang.annotation.*;
 /**
  * 消费者监听注解
  *
- * @Author: daqian
- * @Date: 2019/3/20 20:13
+ * @author daqian
+ * @date 2019/3/20 20:13
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

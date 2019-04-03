@@ -25,7 +25,9 @@ public class OnsMqClient {
      * 发送消息
      *
      * @param message
-     * @return
+     * @return boolean
+     * @author daqian
+     * @date 2019/4/2 11:36
      */
     public boolean sendMsg(Message message) {
         if (!producerBean.isStarted()) {
@@ -55,7 +57,9 @@ public class OnsMqClient {
      * @param topic
      * @param tags
      * @param body
-     * @return
+     * @return boolean
+     * @author daqian
+     * @date 2019/4/2 11:37
      */
     public boolean sendMsg(String topic, String tags, Object body) {
         Message message = new Message();
@@ -71,7 +75,9 @@ public class OnsMqClient {
      * @param topic
      * @param tags
      * @param body
-     * @return
+     * @return boolean
+     * @author daqian
+     * @date 2019/4/2 11:37
      */
     public boolean sendMsg(String topic, String tags, byte[] body) {
         Message message = new Message();
